@@ -1,9 +1,8 @@
 package sia.takocloud.repositories;
 
 
+import org.springframework.data.repository.CrudRepository;
 import sia.takocloud.domain.Taco;
 
-public interface TacoRepository {
-
-    Taco save(Taco taco);
+public interface TacoRepository extends CrudRepository<Taco, Long> {
 }
