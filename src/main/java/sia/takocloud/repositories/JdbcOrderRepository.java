@@ -1,62 +1,67 @@
 package sia.takocloud.repositories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import sia.takocloud.domain.Order;
 import sia.takocloud.domain.Taco;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Date;
+import java.util.*;
 
 @Repository
 public class JdbcOrderRepository implements OrderRepository {
 
-    private SimpleJdbcInsert orderInserter;
-    private SimpleJdbcInsert orderTacoInserter;
-    private ObjectMapper objectMapper;
-
-    public JdbcOrderRepository(JdbcTemplate jdbc) {
-        this.orderInserter = new SimpleJdbcInsert(jdbc)
-                .withTableName("Taco_Order")
-                .usingGeneratedKeyColumns("id");
-
-        this.orderTacoInserter = new SimpleJdbcInsert(jdbc)
-                .withTableName("Taco_Order_Tacos");
-
-        this.objectMapper = new ObjectMapper();
+    @Override
+    public <S extends Order> S save(S s) {
+        return null;
     }
 
     @Override
-    public Order save(Order order) {
-        order.setPlacedAt(new Date());
-        long orderId = saveOrderDetails(order);
-        order.setId(orderId);
-        List<Taco> tacos = order.getTacos();
-
-        for (Taco taco : tacos){
-            saveTacoToOrder(taco, orderId);
-        }
-        return order;
+    public <S extends Order> Iterable<S> saveAll(Iterable<S> iterable) {
+        return null;
     }
 
-    private long saveOrderDetails(Order order) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> values = objectMapper.convertValue(order, Map.class);
-        values.put("placedAt", order.getPlacedAt());
-
-        long orderId = orderInserter.executeAndReturnKey(values).longValue();
-
-        return orderId;
+    @Override
+    public Optional<Order> findById(Long aLong) {
+        return Optional.empty();
     }
 
-    private void saveTacoToOrder(Taco taco, long orderId) {
-        Map<String, Object> values = new HashMap<>();
-        values.put("tacoOrder", orderId);
-        values.put("taco", taco.getId());
-        orderTacoInserter.execute(values);
+    @Override
+    public boolean existsById(Long aLong) {
+        return false;
+    }
+
+    @Override
+    public Iterable<Order> findAll() {
+        return null;
+    }
+
+    @Override
+    public Iterable<Order> findAllById(Iterable<Long> iterable) {
+        return null;
+    }
+
+    @Override
+    public long count() {
+        return 0;
+    }
+
+    @Override
+    public void deleteById(Long aLong) {
+
+    }
+
+    @Override
+    public void delete(Order order) {
+
+    }
+
+    @Override
+    public void deleteAll(Iterable<? extends Order> iterable) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 }

@@ -1,56 +1,66 @@
 package sia.takocloud.repositories;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
-import sia.takocloud.domain.Ingredient;
-import sia.takocloud.domain.Taco;
 
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.Arrays;
-import java.util.Date;
+import org.springframework.stereotype.Repository;
+import sia.takocloud.domain.Taco;
+import java.util.Optional;
 
 @Repository
 public class JdbcTacoRepository implements TacoRepository{
 
-    private JdbcTemplate jdbcTemplate;
 
-    public JdbcTacoRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    @Override
+    public <S extends Taco> S save(S s) {
+        return null;
     }
 
     @Override
-    public Taco save(Taco taco) {
-        long tacoId = saveTacoInfo(taco);
-        taco.setId(tacoId);
-        for (Ingredient ingredient : taco.getIngredients()) {
-            saveIngredientToTaco(ingredient, tacoId);
-        }
-        return taco;
+    public <S extends Taco> Iterable<S> saveAll(Iterable<S> iterable) {
+        return null;
     }
 
-    private long saveTacoInfo(Taco taco){
-        taco.setCreatedAt(new Date());
-        PreparedStatementCreator psc = new PreparedStatementCreatorFactory(
-                "INSERT INTO Taco (name, createdAt) values (?,?)",
-                Types.VARCHAR, Types.TIMESTAMP
-        ).newPreparedStatementCreator(
-                Arrays.asList(
-                        taco.getName(),
-                        new Timestamp(taco.getCreatedAt().getTime())));
-
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(psc,keyHolder);
-
-        return keyHolder.getKey().longValue();
+    @Override
+    public Optional<Taco> findById(Long aLong) {
+        return Optional.empty();
     }
 
-    private void saveIngredientToTaco(Ingredient ingredient, long tacoId) {
-        jdbcTemplate.update(
-                "INSERT INTO Taco_Ingredients (taco, ingredient) " + "values (?,?,?)", tacoId, ingredient.getId());
+    @Override
+    public boolean existsById(Long aLong) {
+        return false;
+    }
+
+    @Override
+    public Iterable<Taco> findAll() {
+        return null;
+    }
+
+    @Override
+    public Iterable<Taco> findAllById(Iterable<Long> iterable) {
+        return null;
+    }
+
+    @Override
+    public long count() {
+        return 0;
+    }
+
+    @Override
+    public void deleteById(Long aLong) {
+
+    }
+
+    @Override
+    public void delete(Taco taco) {
+
+    }
+
+    @Override
+    public void deleteAll(Iterable<? extends Taco> iterable) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 }
