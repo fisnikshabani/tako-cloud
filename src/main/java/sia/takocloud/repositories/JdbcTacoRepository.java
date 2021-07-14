@@ -1,6 +1,9 @@
 package sia.takocloud.repositories;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import sia.takocloud.domain.Taco;
 import java.util.Optional;
@@ -62,5 +65,15 @@ public class JdbcTacoRepository implements TacoRepository{
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public Iterable<Taco> findAll(Sort sort) {
+        return null;
+    }
+
+    @Override
+    public Page<Taco> findAll(Pageable pageable) {
+        return null;
     }
 }
